@@ -5,20 +5,115 @@
     }
 } */
 
-.container {
-	padding: 5px;
-}
-
 #MainChart {
 	height: 100%;
 	max-width: 100%;
-	margin: 0 auto;
+	margin: 0;
 }
 
-#profile {
-	padding: 10px;
+.scrollable{
+  overflow-y: auto;
+  max-height: 50%;
 }
 
-#panel {
-    
+.sidebar {
+	height: 100%;
+	padding-top: 20px;
+}
+
+.card-text {
+	color: grey;
+	font-size: 11;
+}
+
+.command-panel-heading {
+	font-size: 12;
+	background: rgb(238, 239, 240);
+	color: rgb(100, 100, 100);
+}
+
+#stock-selector-panel {}
+
+#stock-selector-panel-header {
+	height: 3%;
+	font-size: 11;
+}
+
+#stock-selector-panel-body {
+	height: 25%;
+	border: 0px;
+}
+
+.stock-selector-button {
+	font-size: 12;
+}
+
+#stock-details-panel {
+	height: 20%;
+	overflow: auto;
+}
+
+#tweetsPanel {
+	height: 40%;
+}
+
+.row.tweet:hover {
+	background: rgb(196, 232, 255);
+}
+
+.row.tweet {
+	padding: 0px;
+}
+
+.col.tweet {
+	padding-top: 5px;
+	padding-left: 20px;
+}
+
+.tweet-text {
+	font-size: 11;
+	color: black;
+}
+
+.tweeter-info {
+	padding: 0px;
+	color: grey;
+	font-size: 9;
+}
+
+.overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	color: red;
+	font-size: 40px;
+	z-index: 10;
+}
+
+.tiny {
+	font-size: 9
+}
+
+.base {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

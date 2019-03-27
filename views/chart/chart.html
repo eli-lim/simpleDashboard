@@ -1,341 +1,155 @@
 <script>
-    Highcharts.createElement('link', {
-        href: 'https://fonts.googleapis.com/css?family=Unica+One',
-        rel: 'stylesheet',
-        type: 'text/css'
-    }, null, document.getElementsByTagName('head')[0]);
-
-    Highcharts.theme = {
-        chart: {
-            style: {
-                fontFamily: '\'Unica One\', sans-serif'
-            },
-            plotBorderColor: '#606063'
-        },
-        title: {
-            style: {
-                color: '#E0E0E3',
-                textTransform: 'uppercase',
-                fontSize: '20px'
-            }
-        },
-        subtitle: {
-            style: {
-                color: '#E0E0E3',
-                textTransform: 'uppercase'
-            }
-        },
-        xAxis: {
-            gridLineColor: 'lightgrey',
-            labels: {
-                style: {
-                    color: '#E0E0E3'
-                }
-            },
-            lineColor: 'lightgrey',
-            minorGridLineColor: 'lightgrey',
-            tickColor: '#707073',
-            title: {
-                style: {
-                    color: '#A0A0A3'
-
-                }
-            },
-        },
-        yAxis: {
-            gridLineColor: 'lightgrey',
-            labels: {
-                style: {
-                    color: '#E0E0E3'
-                }
-            },
-            lineColor: 'lightgrey',
-            minorGridLineColor: 'lightgrey',
-            tickColor: '#707073',
-            tickWidth: 1,
-            title: {
-                style: {
-                    color: '#A0A0A3'
-                }
-            },
-        },
-        tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.85)',
-            style: {
-                color: '#F0F0F0'
-            }
-        },
-        plotOptions: {
-            series: {
-                dataLabels: {
-                    color: '#B0B0B3'
-                },
-                marker: {
-                    lineColor: '#333'
-                }
-            },
-            boxplot: {
-                fillColor: '#505053'
-            },
-            errorbar: {
-                color: 'white'
-            }
-        },
-        legend: {
-            itemStyle: {
-                color: '#E0E0E3'
-            },
-            itemHoverStyle: {
-                color: '#FFF'
-            },
-            itemHiddenStyle: {
-                color: '#606063'
-            }
-        },
-        credits: {
-            style: {
-                color: '#666'
-            }
-        },
-        labels: {
-            style: {
-                color: '#707073'
-            }
-        },
-
-        drilldown: {
-            activeAxisLabelStyle: {
-                color: '#F0F0F3'
-            },
-            activeDataLabelStyle: {
-                color: '#F0F0F3'
-            }
-        },
-
-        navigation: {
-            buttonOptions: {
-                symbolStroke: '#DDDDDD',
-                theme: {
-                    fill: '#505053'
-                }
-            }
-        },
-
-        // scroll charts
-        rangeSelector: {
-            buttonTheme: {
-                fill: '#505053',
-                stroke: '#000000',
-                style: {
-                    color: '#CCC'
-                },
-                states: {
-                    hover: {
-                        fill: '#707073',
-                        stroke: '#000000',
-                        style: {
-                            color: 'white'
-                        }
-                    },
-                    select: {
-                        fill: '#000003',
-                        stroke: '#000000',
-                        style: {
-                            color: 'white'
-                        }
-                    }
-                }
-            },
-            inputBoxBorderColor: '#505053',
-            inputStyle: {
-                backgroundColor: '#333',
-                color: 'silver'
-            },
-            labelStyle: {
-                color: 'silver'
-            }
-        },
-
-        navigator: {
-            handles: {
-                backgroundColor: '#666',
-                borderColor: '#AAA'
-            },
-            outlineColor: '#CCC',
-            maskFill: 'rgba(255,255,255,0.1)',
-            series: {
-                color: '#7798BF',
-                lineColor: '#A6C7ED'
-            },
-            xAxis: {
-                gridLineColor: '#505053'
-            }
-        },
-
-        scrollbar: {
-            barBackgroundColor: '#808083',
-            barBorderColor: '#808083',
-            buttonArrowColor: '#CCC',
-            buttonBackgroundColor: '#606063',
-            buttonBorderColor: '#606063',
-            rifleColor: '#FFF',
-            trackBackgroundColor: '#404043',
-            trackBorderColor: '#404043'
-        },
-
-        // special colors for some of the
-        legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
-        background2: '#505053',
-        dataLabelsColor: '#B0B0B3',
-        textColor: '#C0C0C0',
-        contrastTextColor: '#F0F0F3',
-        maskColor: 'rgba(255,255,255,0.3)'
-    };
-
-    // Apply the theme
-    Highcharts.setOptions(Highcharts.theme);
-
-  Highcharts.stockChart('MainChart', {
-
-    plotOptions: {
-      candlestick : {
-              lineColor: 'grey',
-              color: 'salmon',
-              upColor: 'lightgreen'
-          }
-    },
-
-    chart: {
-        events: {
-            load: function () {
-
-                // set up the updating of the chart each second
-                var series1 = this.series[0];
-                var series2 = this.series[1];
-
-                setInterval(function () {
-                    var x = (new Date()).getTime(), // current time
-                        y = Math.round(Math.random() * 100);
-                    series1.addPoint([x, y, y + 10, y - 10, y], true, true);
-                    series2.addPoint([x, y, y + 10, y - 10, y], true, true);
-                }, 1000);
-            }
-        },
-    },
-
-    title: {
-        text: 'AAPL'
-    },
-
-    yAxis: [{
-      labels: {
-        align: 'left'
-      },
-      height: '80%',
-      resize: {
-        enabled: true
-      }
-    }, {
-      labels: {
-        align: 'left'
-      },
-      top: '80%',
-      height: '20%',
-      offset: 0
-    }],
-
-    tooltip: {
-      shape: 'square',
-      headerShape: 'callout',
-      borderWidth: 0,
-      shadow: false,
-      positioner: function (width, height, point) {
-        var chart = this.chart,
-          position;
-
-        if (point.isHeader) {
-          position = {
-            x: Math.max(
-              // Left side limit
-              chart.plotLeft,
-              Math.min(
-                point.plotX + chart.plotLeft - width / 2,
-                // Right side limit
-                chart.chartWidth - width - chart.marginRight
-              )
-            ),
-            y: point.plotY
-          };
-        } else {
-          position = {
-            x: point.series.chart.plotLeft,
-            y: point.series.yAxis.top - chart.plotTop
-          };
-        }
-
-        return position;
-      }
-    },
     
-    series: [{
-      type: 'candlestick',
-      id: 'aapl-ohlc',
-      name: 'AAPL Stock Price',
-      data: (function () {
-        // generate an array of random data
-        var data = [],
-            time = (new Date()).getTime(),
-            i;
+    function renderChart(stock) {
+        Highcharts.stockChart('MainChart', {
 
-        for (i = -999; i <= 0; i += 1) {
-          var r = Math.random()
-            var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + (Math.random() * i)
-            data.push([
-                time + i * 1000,
-                n,
-                n + 10,
-                n - 10,
-                n
-            ]);
-        }
-        return data;
-      }())
-    }, {
-      type: 'area',
-      id: 'aapl-volume',
-      name: 'AAPL Volume',
-      data: (function () {
-        // generate an array of random data
-        var data = [],
-            time = (new Date()).getTime(),
-            i;
+            plotOptions: {
+            candlestick : {
+                    lineColor: 'grey',
+                    color: 'salmon',
+                    upColor: 'lightgreen'
+                }
+            },
 
-        for (i = -999; i <= 0; i += 1) {
-          var r = Math.random()
-          var n = Math.round(Math.random() * 100)
-            data.push([
-                time + i * 1000,
-                n,
-                n + 10,
-                n - 10,
-                n
-            ]);
-        }
-        return data;
-      }()),
-      yAxis: 1
-    }],
-    responsive: {
-      rules: [{
-        condition: {
-          maxWidth: 800
-        },
-        chartOptions: {
-          rangeSelector: {
-            inputEnabled: false
-          }
-        }
-      }]
+            chart: {
+                events: {
+                    load: function () {
+
+                        let priceSeries  = this.series[0]
+                        let volumeSeries = this.series[1]
+                        
+                        setInterval(function () {
+
+                            fetch(`http://localhost:5000/stocks/${stock}`)
+                                .then( response => response.json() )
+                                .then( data => {
+                                    var x = (new Date()).getTime(), // current time
+                                        y = data.price
+
+                                    priceSeries.addPoint([x, y, y + 10, y - 10, y], true, true);
+                                    volumeSeries.addPoint([x, y, y + 10, y - 10, y], true, true);
+                                })
+
+                        }, 1000);
+                    }
+                },
+            },
+
+            title: {
+                text: stock
+            },
+
+            yAxis: [{
+            labels: {
+                align: 'left'
+            },
+            height: '80%',
+            resize: {
+                enabled: true
+            }
+            }, {
+            labels: {
+                align: 'left'
+            },
+            top: '80%',
+            height: '20%',
+            offset: 0
+            }],
+
+            tooltip: {
+            shape: 'square',
+            headerShape: 'callout',
+            borderWidth: 0,
+            shadow: false,
+            positioner: function (width, height, point) {
+                var chart = this.chart,
+                position;
+
+                if (point.isHeader) {
+                position = {
+                    x: Math.max(
+                    // Left side limit
+                    chart.plotLeft,
+                    Math.min(
+                        point.plotX + chart.plotLeft - width / 2,
+                        // Right side limit
+                        chart.chartWidth - width - chart.marginRight
+                    )
+                    ),
+                    y: point.plotY
+                };
+                } else {
+                position = {
+                    x: point.series.chart.plotLeft,
+                    y: point.series.yAxis.top - chart.plotTop
+                };
+                }
+
+                return position;
+            }
+            },
+            
+            series: [{
+            type: 'candlestick',
+            id: `${stock}-ohlc`,
+            name: `${stock} Stock Price`,
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -999; i <= 0; i += 1) {
+                var r = Math.random()
+                    var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + (Math.random() * i)
+                    data.push([
+                        time + i * 1000,
+                        n,
+                        n + 10,
+                        n - 10,
+                        n
+                    ]);
+                }
+                return data;
+            }())
+            }, {
+            type: 'area',
+            id: `${stock}-volume`,
+            name: `{stock} Volume`,
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -999; i <= 0; i += 1) {
+                var r = Math.random()
+                var n = Math.round(Math.random() * 100)
+                    data.push([
+                        time + i * 1000,
+                        n,
+                        n + 10,
+                        n - 10,
+                        n
+                    ]);
+                }
+                return data;
+            }()),
+            yAxis: 1
+            }],
+            responsive: {
+            rules: [{
+                condition: {
+                maxWidth: 800
+                },
+                chartOptions: {
+                rangeSelector: {
+                    inputEnabled: false
+                }
+                }
+            }]
+            }
+        });
     }
-  });
+
 </script>

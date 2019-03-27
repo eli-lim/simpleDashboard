@@ -1,0 +1,101 @@
+<div id="stock-selector-panel" class="container p-0 border-bottom">
+    <h6 class="command-panel-heading card-header border-0 m-1 p-2">Watchlist</h6>
+        <!-- <input class="form-control float-right" type="text" placeholder="Search" aria-label="Search"> -->
+    <div id="stock-selector-panel-header" class="container pt-1 pl-2 m-1 bg-white border-bottom">Symbol</div>
+
+    <div id="stock-selector-panel-body" class="container p-0 m-0 list-group scrollable"></div>
+</div>
+
+<div id="stock-details-panel" class="container p-0">
+    <h6 class="command-panel-heading card-header border-0 m-1 p-2">Details</h6>
+    <div class="container pl-2 pt-1">
+        <h6 id="stock-symbol">l</h4>
+        <h6 id="stock-description" class="badge badge-secondary"></h4>
+        <h6 id="stock-price"></h4>
+        <div id="stock-sentiment">Sentiment</div>
+        <h6 id="stock-last-updated"></h4>
+    </div>
+    <div class="container btn-group">
+        <button type="button" class="btn border-danger text-danger">Sell</button>
+        <button type="button" class="btn border-success text-success">Buy</button>
+    </div>
+</div>
+
+<div id="stock-twits-panel" class="container p-0 border-top">
+    <h6 class="command-panel-heading card-header border-0 m-1 p-2"><img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/256/social-twitter-icon.png" width="5%"> News Feed</h6>
+    <div id="tweetsPanel" class="container pl-0 scrollable hoverable">
+        <div class="row tweet">
+            <div class="col tweet">
+                <h6 class="card-text">Example Tweet</p>
+            </div>                     
+        </div>
+    </div>  
+</div>
+
+<script>   
+    let stocks = ['AAPL', 'TSLA', 'MSFT', 'FB', 'AMZN', 'GOOGL', 'JPM', 'GS']
+
+    function renderPageForStock(stock = stocks[0]) {
+        renderDetailsPanel(stock)
+        renderStockTweets(stock)
+        renderChart(stock)
+    }
+
+    function renderDetailsPanel(stock) {
+        fetch(`/stock/info/${stock}`)
+            .then( response => response.json() )
+            .then( data => {
+                document.getElementById('stock-symbol').textContent       = data.name    
+                document.getElementById('stock-description').textContent  = 'Stock'
+                document.getElementById('stock-price').textContent        = data.price      
+                document.getElementById('stock-sentiment').textContent    = data.sentiment
+                document.getElementById('stock-last-updated').textContent = data.last_updated
+            })
+    }
+
+    function renderStockSelectorPanel() {
+        var stockSelectorPanelHtml = '',
+            stock,
+            i
+
+        for (i = 0; i < stocks.length; i++) {  
+            stock = stocks[i]
+
+            stockSelectorPanelHtml += `
+                <a id="${stock}" href="#" onclick="renderPageForStock(this.id)" class="stock-selector-button list-group-item list-group-item-action border-0">${stock}</a>
+            `
+        }
+
+        document.getElementById('stock-selector-panel-body').innerHTML = stockSelectorPanelHtml
+    }
+
+    function renderStockTweets(stock) {
+
+        fetch(`http://localhost:3000/stock/tweets/${stock}`)
+            .then( response => response.json() )
+            .then( tweets => {
+                tweetsPanelHtml = ''
+
+                for (var i = 0; i < tweets.length; i++) {
+                    tweetsPanelHtml += `
+                    <div class="row tweet">
+                        <div class="col tweet border-bottom">
+                            <p class="tweet-text">${tweets[i].text}</p>
+                            <p class="float-right">
+                                <font class="tweeter-info">
+                                    by <a href="">${tweets[i].user}</a> ESMTwits
+                                </font>
+                            </p>
+                        </div>                     
+                    </div>
+                    `
+                }
+
+                document.getElementById('tweetsPanel').innerHTML = tweetsPanelHtml
+            })
+    }
+
+    renderStockSelectorPanel()
+    renderPageForStock()
+
+</script> 

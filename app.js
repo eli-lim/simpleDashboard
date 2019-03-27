@@ -6,9 +6,11 @@ const port = 3000
 const clientService = 'http://localhost:5000/clients/info'
 
 var request = require('request')
-
 var cors = require('cors')
 app.use(cors())
+
+var Twit   = require('twit');
+var config = require('./config');
 
 // Register ejs as .html. If we did
 // not call this, we would need to
@@ -33,8 +35,50 @@ app.use(express.static(__dirname + '/public'))
 // ex: res.render('users.html').
 app.set('view engine', 'html'); 
 
-app.options('/', (req, res) => {
-    console.log(req)
+app.get('/stock/info/:symbol', (req, res) => {
+
+    var symbol = req.params.symbol
+
+    res.send({
+        symbol: symbol,
+        name: `${symbol}  Inc.`,
+        price: Math.random() * 100,
+        sentiment: Math.random(),
+        last_updated: new Date().toDateString()
+    })
+})
+
+app.get('/stock/tweets/:symbol', (req, res) => {
+
+    var symbol = '$' + req.params.symbol
+
+    // configurations file that stores consumer key, consumer secret, token, token secret
+    var T = new Twit(config);
+
+    //q indicates the search keyword to find
+    //count indicates number of tweets to return before function exists
+    var params = { 
+        q: symbol,
+        count: 50
+    }
+
+    //search method in twit
+    T.get('search/tweets', params, (err, data, response) => {
+
+        var tweets = data.statuses
+        var output = []
+
+        for (var i = 0; i < tweets.length; i++) {
+            var { user, text } = tweets[i]
+
+            output.push({
+                user: user.screen_name,
+                text: text
+            })
+        }
+
+        res.send(output)
+    })
 })
 
 app.get('/', (req, res) => {
@@ -47,7 +91,7 @@ app.get('/', (req, res) => {
         } 
     }
 
-    res.set('Access-Control-Allow-Origin', 'http://localhost:5000')
+    // res.set('Access-Control-Allow-Origin', 'http://localhost:5000')
 
     request(clientService, requestOptions, (err, resp, body) => {
         
