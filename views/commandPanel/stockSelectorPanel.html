@@ -21,12 +21,29 @@
     </div>
 </div>
 
+<!-- buttons implemented to show/hide twitter or news feed -->
+<div class="btn-group container p-0 border-top" role="group">
+    <button type="button" class="btn col-sm-6 btn-news" id = "twitter-show">
+        <img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/256/social-twitter-icon.png" width="20%" hspace = "5">Twitter</button>
+    <button type="button" class="btn com-sm-6 btn-news" id = "news-show">
+        <img src="https://image.flaticon.com/icons/svg/148/148985.svg" width="18%" hspace = "5">News Feed</button>
+</div>
+
 <div id="stock-twits-panel" class="container p-0 border-top">
-    <h6 class="command-panel-heading card-header border-0 m-1 p-2"><img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/256/social-twitter-icon.png" width="5%"> News Feed</h6>
     <div id="tweetsPanel" class="container pl-0 scrollable hoverable">
         <div class="row tweet">
             <div class="col tweet">
                 <h6 class="card-text">Example Tweet</p>
+            </div>                     
+        </div>
+    </div>  
+</div>
+
+<div id = "news-panel" class = "container p-0 border-top">
+    <div id="newsPanel" class="container pl-0 scrollable hoverable">
+        <div class="row tweet">
+            <div class="col tweet">
+                <h6 class="card-text">dummy news</p>
             </div>                     
         </div>
     </div>  
@@ -39,6 +56,7 @@
         renderDetailsPanel(stock)
         renderStockTweets(stock)
         renderChart(stock)
+        renderStockNews(stock)
     }
 
     function renderDetailsPanel(stock) {
@@ -74,7 +92,7 @@
         fetch(`http://localhost:3000/stock/tweets/${stock}`)
             .then( response => response.json() )
             .then( tweets => {
-                tweetsPanelHtml = ''
+            tweetsPanelHtml = ''
 
                 for (var i = 0; i < tweets.length; i++) {
                     tweetsPanelHtml += `
@@ -94,8 +112,36 @@
                 document.getElementById('tweetsPanel').innerHTML = tweetsPanelHtml
             })
     }
+    
+    function renderStockNews(stock) {
+
+        fetch(`http://localhost:3000/stock/news/${stock}`)
+            .then(response => response.json())
+            .then( news => {
+            newsPanelHtml = ''
+
+                for (var i = 0; i < news.length; i++) {
+                    newsPanelHtml += `
+                    <div class="row tweet">
+                        <div class="col tweet border-bottom">
+                            <p class="tweet-text"><a href="${news[i].url}">${news[i].title}</a></p>
+                            <p class="float-right">
+                                <font class="tweeter-info">
+                                    Published on ${news[i].publish_date} by <a href="${news[i].url}">${news[i].source}</a>
+                                </font>
+                            </p>
+                        </div>                     
+                    </div>
+                    `
+                }
+
+                document.getElementById('newsPanel').innerHTML = newsPanelHtml
+            })
+    }
+
 
     renderStockSelectorPanel()
     renderPageForStock()
+    renderStockNews()
 
 </script> 

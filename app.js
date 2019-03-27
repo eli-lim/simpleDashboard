@@ -3,7 +3,7 @@ const app = express()
 const path = require('path');
 const port = 3000
 
-const clientService = 'http://localhost:5000/clients/info'
+const clientService = 'http://localhost/clients/info'
 
 var request = require('request')
 var cors = require('cors')
@@ -11,6 +11,7 @@ app.use(cors())
 
 var Twit   = require('twit');
 var config = require('./config');
+const NewsAPI = require('newsapi');
 
 // Register ejs as .html. If we did
 // not call this, we would need to
@@ -79,6 +80,46 @@ app.get('/stock/tweets/:symbol', (req, res) => {
 
         res.send(output)
     })
+})
+
+app.get('/stock/news/:symbol', (req,res) => {
+    
+    var symbol = req.params.symbol;
+
+    //new NewsAPI object
+    const newsapi = new NewsAPI('19fc75e113eb4f79bf08f5114cb741af');
+
+    //use news api to search news related to symbol
+    newsapi.v2.everything({
+        sources: 'independent, bbc.co.uk, business-insider',
+        q: symbol,
+        language: 'en',
+        sortBy: 'popularity'
+      }).then(response => {          
+        var output = [];
+        //set limit to max 50 articles
+        if (response.articles.length > 50) {
+            news = response.articles.slice(1,50);
+        } else {
+            news = response.articles;
+        }
+
+        for (var i = 0; i < news.length; i++) {
+            
+            var {title, source, description, url, publishedAt} = news[i]
+
+            output.push ({
+                title: title,
+                source: source.name,
+                description: description,
+                url: url,
+                publish_date: publishedAt 
+            })
+        }
+    
+        res.send(output)
+
+      });
 })
 
 app.get('/', (req, res) => {
