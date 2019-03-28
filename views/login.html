@@ -2,19 +2,19 @@
 <link rel="stylesheet" href="/css/login.css" type="text/css"/>
 <div class="wrapper fadeInDown">
     <div id="formContent">
-      <!-- Tabs Titles -->
-  
-      <!-- Icon -->
-      <div class="fadeIn first">
-        <img src="/images/ez-stock.png" id="icon" alt="User Icon" />
-      </div>
-  
-      <!-- Login Form -->
-      <form action = "/auth" method = 'post'>
-        <input type="text" id="login" class="fadeIn second" name="login" placeholder="Please enter your ID">
-        <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
-        <input type="submit" class="fadeIn fourth" value="Log In">
-      </form>
-  
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="/images/ez-stock.png" id="icon" alt="User Icon" />
+        </div>
+
+        <!-- Login Form -->
+        <form action = "/auth" method = 'post'>
+            <input type="text" id="login" class="fadeIn second" name="login" placeholder="Please enter your ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Please enter your ID'">
+            <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+            <input type="submit" class="fadeIn fourth" value="Log In">
+        </form>
+
     </div>
-  </div>
+</div>
