@@ -9,11 +9,16 @@ const clientService = 'http://localhost/clients/info'
 var request = require('request')
 var cors = require('cors')
 app.use(cors())
+
+//body parser enables you to handle post requests
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
 
+// these two lines of code allows you to call images from a static folder
+var publicDir = require('path').join(__dirname,'/public');
+app.use(express.static(publicDir));
 var Twit   = require('twit');
 var config = require('./config');
 const NewsAPI = require('newsapi');
