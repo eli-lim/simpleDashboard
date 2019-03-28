@@ -118,7 +118,7 @@
         fetch(`http://localhost:3000/stock/news/${stock}`)
             .then(response => response.json())
             .then( news => {
-            newsPanelHtml = ''
+                newsPanelHtml = ''
 
                 for (var i = 0; i < news.length; i++) {
                     newsPanelHtml += `
