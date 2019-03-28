@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path');
 const port = 3000
+const bodyParser = require("body-parser")
 
 const clientService = 'http://localhost:5000/clients/info'
 
@@ -9,6 +10,15 @@ var request = require('request')
 var cors = require('cors')
 app.use(cors())
 
+//body parser enables you to handle post requests
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+// these two lines of code allows you to call images from a static folder
+var publicDir = require('path').join(__dirname,'/public');
+app.use(express.static(publicDir));
 var Twit   = require('twit');
 var config = require('./config');
 const NewsAPI = require('newsapi');
@@ -122,7 +132,23 @@ app.get('/stock/news/:symbol', (req,res) => {
       });
 })
 
-app.get('/', (req, res) => {
+app.get('/', (req,res) => {
+
+    res.render('login')
+
+})
+
+app.post('/auth', (req, res) => {
+    // console.log(req)
+    if (req.body.login == "apple" && req.body.password == "apple123") {
+        res.redirect('/dashboard')
+    } else {
+        res.redirect('/')
+    }
+    
+})
+
+app.get('/dashboard', (req, res) => {
 
     clientApiKey = req.headers['x-apikey'] || 'appletanKEY'
     requestOptions = { 
