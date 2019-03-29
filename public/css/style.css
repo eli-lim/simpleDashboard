@@ -154,9 +154,22 @@
   overflow: hidden;
 }
 
+.card{
+  -webkit-filter: drop-shadow(3px 3px 3px lightgrey);
+  filter: drop-shadow(3px 3px 3px lightgrey);
+}
+
 
 .profile-card-text {
-	font-size: 13px;
+  font-size: 13px;
+  padding-left: 20px !important;
+}
+
+.profile-card-header {
+  font-size: 15px;
+  color: #5b9bd1;
+  background-color: #f6f9fb !important;
+  padding-left: 20px !important;
 }
 
 .card-title-2 {
@@ -171,7 +184,7 @@
 
 .profile-button {
   color: #2D354A;
-  font-size: 12px !important;
+  font-size: 15px !important;
   font-weight: 500 !important;
   letter-spacing: 0.5px;
   text-align: left;
@@ -184,7 +197,7 @@
 }
 
 .profile-button-active {
-  font-size: 12px !important;
+  font-size: 15px !important;
   color: #5b9bd1;
   font-weight: 1000 !important;
   background-color: #f6f9fb !important;
@@ -192,8 +205,3 @@
   margin-left: -2px;
 }
 
-.profile-card-header {
-  font-size: 15px;
-  color: #5b9bd1;
-  background-color: #f6f9fb !important;
-}
