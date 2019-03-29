@@ -19,8 +19,7 @@ $(document).ready(function(){
     //select twitter on page load
     $(function() {
         $("#twitter-show").trigger("click");
-        $("#portfolio-button").trigger("click");
-        $("#MainChart").hide();
+        $("#dashboard-button").trigger("click");
     })
 
     $("#dashboard-button").click(function () {
