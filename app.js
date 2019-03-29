@@ -9,6 +9,11 @@ const clientService = 'http://localhost/clients/info'
 var request = require('request')
 var cors = require('cors')
 app.use(cors())
+var mysql = require('mysql')
+
+//database config
+var connectionConfig = require('./connection_config')
+var connection = mysql.createConnection(connectionConfig);
 
 //body parser enables you to handle post requests
 app.use(bodyParser.urlencoded({
@@ -140,12 +145,57 @@ app.get('/', (req,res) => {
 
 app.post('/auth', (req, res) => {
     // console.log(req)
-    if (req.body.login == "apple" && req.body.password == "apple123") {
-        res.redirect('/dashboard')
-    } else {
-        res.redirect('/')
-    }
+    //this allows password hash to return same value as mySQL password hash
+    var mysqlPassword = require('mysql-password');
+    var hashedPw = mysqlPassword(req.body.password);
+
+    var username = req.body.login;
+    connection.query(`SELECT * from client_info where username = "${username}"`, function(err, userdata) {
+        if (err) {
+            console.log('hello world')
+            res.redirect('/')
+        } else {
+            if (userdata[0].hashed_pwd == hashedPw) {
+                res.redirect('dashboard')
+            } else {
+                res.redirect('/')
+            }
+        }
+    })    
+})
+
+app.get('/portfolio/:symbol' , (req,res) => {
+
+    var symbol = req.params.symbol;
+
+    connection.query(`SELECT * from client_portfolio where username = "${symbol}"`, function (err, data, fields){
+        var output = [];
+        if (err) {
+            throw err;
+        }
+
+        console.log(data);
+
+        for (var i = 0; i < data.length; i++) {
     
+            var {username, stockname, quantity, buy_price, date_bought} = data[i];
+    
+            output.push({
+                username: username,
+                stockname: stockname,
+                quantity: quantity,
+                buy_price: buy_price,
+                date_bought: date_bought
+            })
+        }
+        res.send(output)
+    })
+})
+
+app.get('/my_profile', (req,res) => {
+
+    res.render('my_profile')
+
 })
 
 app.get('/dashboard', (req, res) => {
