@@ -152,7 +152,11 @@
   left: 32%;
   border-radius: 50%;
   overflow: hidden;
-  padding-bottom: 0px
+}
+
+
+.profile-card-text {
+	font-size: 13px;
 }
 
 .card-title-2 {
@@ -168,7 +172,7 @@
 .profile-button {
   color: #2D354A;
   font-size: 12px !important;
-  font-weight: 250;
+  font-weight: 500 !important;
   letter-spacing: 0.5px;
   text-align: left;
 	font-family: 'Helvetica', sans-serif;
@@ -182,13 +186,14 @@
 .profile-button-active {
   font-size: 12px !important;
   color: #5b9bd1;
-  font-weight: 250;
+  font-weight: 1000 !important;
   background-color: #f6f9fb !important;
-  border-left: 2px solid #5b9bd1 !important;
+  border-left: 6px solid #5b9bd1 !important;
   margin-left: -2px;
 }
 
-.balance-header {
+.profile-card-header {
+  font-size: 15px;
   color: #5b9bd1;
   background-color: #f6f9fb !important;
 }

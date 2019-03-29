@@ -1,9 +1,5 @@
 <%include profile.html%>
 
-<div id="bank-balance" class="container p-0">
-        <div class="container pl-2 pt-1" id = "bank-details">
-        </div>
-</div>
 
 <div id="stock-selector-panel" class="container p-0 border-bottom">
     <h6 class="command-panel-heading card-header border-0 m-1 p-2">Watchlist</h6>
@@ -146,47 +142,6 @@
             })
     }
 
-    function getUserDetails(username) {
-        fetch(`http://localhost:3000/client_details/${username}`)
-        .then(response=>response.json())
-        .then(userDetails=> {
-            var userHtml = '';
-            userHtml += `
-            <h5 class="card-title-2" id = "username">${userDetails[0].name}</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item profile-button" id = "dashboard-button">Dashboard</li>
-                <li class="list-group-item profile-button" id = "portfolio-button">Portfolio</li>
-            </ul>
-            `
-            document.getElementById('userDetails').innerHTML = userHtml;   
-
-            var bankHtml = '';
-            bankHtml = `
-            <table class = "table table-sm">
-                <tr>
-                    <th class = "card-text balance-header">Account Details:</th>
-                </tr>
-
-                <tr>
-                    <td class = "card-text">${userDetails[0].payeeId}</td>
-                </tr>
-                
-                <tr>
-                    <th class = "card-text balance-header">Balance:</th>
-                </tr>
-
-                <tr>
-                    <td class = "card-text">$${userDetails[0].bal}</td>
-                </tr>
-
-            </table>
-            `
-            
-            document.getElementById('bank-details').innerHTML = bankHtml;
-        })
-    }
-
-    getUserDetails("apple");
     renderStockSelectorPanel()
     renderPageForStock()
     renderStockNews()

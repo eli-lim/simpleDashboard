@@ -33,8 +33,8 @@ $(document).ready(function(){
         //showing dashboard sidebar
         $("#stock-details-panel").show()
         $("#stock-selector-panel").show()
-        $("#news-panel").show()
         $("#stock-twits-panel").show()
+        $("#twitter-show").trigger("click");
         $("#news-buttons").show()
         $("#MainChart").show()
     })
