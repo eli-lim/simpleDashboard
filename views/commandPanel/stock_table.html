@@ -1,31 +1,28 @@
-<script>
-</script>
-<table class = 'table'>
-    <thead>
-        <tr>
-            <th scope = "col">Stock Name</th>
-            <th scope = "col">Quantity Bought</th>
-            <th scope = "col">Cost</th>
-            <th scope = "col">Date Bought</th>
-        </tr>
-    </thead>
+<div id = "stock-table-display" class = "p-0">
+    <table class = 'table'>
+        <h5 class = "p-3">STOCKS BOUGHT<h5>
+            <thead>
+                <tr>
+                    <th scope = "col">Stock Name</th>
+                    <th scope = "col">Quantity Bought</th>
+                    <th scope = "col">Cost</th>
+                    <th scope = "col">Date Bought</th>
+                </tr>
+            </thead>
+        
+            <tbody id = 'stock_table'>
+            </tbody>
+        </table>
+</div>
 
-    <tbody id = 'stock_table'>
-    </tbody>
-</table>
 
 <script>
 function renderPortfolio(user) {
-
-    console.log('123');
 
     fetch(`http://localhost:3000/portfolio/${user}`)
     .then(response=>response.json())
     .then(portfolio=> {
         var portfolioHtml = '';
-
-        console.log(portfolio);
-
         for(var i = 0; i < portfolio.length; i++) {
             portfolioHtml += `
                 <tr>

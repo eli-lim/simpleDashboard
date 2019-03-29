@@ -4,7 +4,7 @@ const path = require('path');
 const port = 3000
 const bodyParser = require("body-parser")
 
-const clientService = 'http://localhost:5000/clients/info'
+const clientService = 'http://localhost/clients/info'
 
 var request = require('request')
 var cors = require('cors')
@@ -164,6 +164,29 @@ app.post('/auth', (req, res) => {
     })    
 })
 
+app.get('/client_details/:symbol' , (req,res) => {
+    
+    var symbol = req.params.symbol;
+
+    connection.query(`SELECT * from client_info where username = "${symbol}"`, function (err, data, fields){
+        var output = [];
+
+        if (err) {
+            throw err;
+        }
+
+        var {full_name, balance, payeeId} = data[0]
+
+        output.push({
+            name: full_name,
+            bal: balance,
+            payeeId: payeeId
+        })
+
+        res.send(output)
+    })
+})
+
 app.get('/portfolio/:symbol' , (req,res) => {
 
     var symbol = req.params.symbol;
@@ -174,8 +197,6 @@ app.get('/portfolio/:symbol' , (req,res) => {
             throw err;
         }
 
-        console.log(data);
-
         for (var i = 0; i < data.length; i++) {
     
             var {username, stockname, quantity, buy_price, date_bought} = data[i];
@@ -185,16 +206,18 @@ app.get('/portfolio/:symbol' , (req,res) => {
                 stockname: stockname,
                 quantity: quantity,
                 buy_price: buy_price,
-                date_bought: date_bought
+                date_bought: date_bought,
             })
+
+            console.log(data)
         }
         res.send(output)
     })
 })
 
-app.get('/my_profile', (req,res) => {
+app.get('/portfolio', (req,res) => {
 
-    res.render('my_profile')
+    res.render('portfolio')
 
 })
 

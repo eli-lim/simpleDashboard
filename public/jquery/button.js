@@ -19,5 +19,38 @@ $(document).ready(function(){
     //select twitter on page load
     $(function() {
         $("#twitter-show").trigger("click");
+        $("#portfolio-button").trigger("click");
+        $("#MainChart").hide();
+    })
+
+    $("#dashboard-button").click(function () {
+        $("#MainChart").show()
+        $("#portfolio-table").hide()
+        $("#portfolio-display").hide()
+        $("#portfolio-button").removeClass("profile-button-active")
+        $(this).addClass("profile-button-active")
+
+        //showing dashboard sidebar
+        $("#stock-details-panel").show()
+        $("#stock-selector-panel").show()
+        $("#news-panel").show()
+        $("#stock-twits-panel").show()
+        $("#news-buttons").show()
+        $("#MainChart").show()
+    })
+
+    $("#portfolio-button").click(function () {
+        $("#portfolio-table").show()
+        $("#portfolio-display").show()
+        // hiding dashboard sidebar
+        $("#stock-details-panel").hide()
+        $("#stock-selector-panel").hide()
+        $("#news-panel").hide()
+        $("#stock-twits-panel").hide()
+        $("#news-buttons").hide()
+        $("#MainChart").hide()
+
+        $("#dashboard-button").removeClass("profile-button-active")
+        $(this).addClass("profile-button-active")
     })
 })  
