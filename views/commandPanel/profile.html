@@ -1,3 +1,56 @@
-<div>
-    <h3><%= username %><span class="badge badge-success float-right">$<%= userBalance %></span></h3>
+<div class="card" style="width: 15rem;">
+    <div>
+        <img class="circle" src="/images/eli_face.jpg" alt="Card image cap">
+    </div> 
+    <div id = 'userDetails'>
+    </div>
+ 
+    <div id = "bank-details"></div>
+
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item profile-button" id = "dashboard-button">Dashboard</li>
+            <li class="list-group-item profile-button" id = "portfolio-button">Portfolio</li>
+    </ul>
 </div>
+
+    
+
+<script>
+function getUserDetails(username) {
+        fetch(`http://localhost:3000/client_details/${username}`)
+        .then(response=>response.json())
+        .then(userDetails=> {
+            var userHtml = '';
+            userHtml += `
+            <h5 class="card-title-2" style = "padding-top:8px">${userDetails[0].name}</h5>
+            `
+            document.getElementById('userDetails').innerHTML = userHtml;   
+
+            var bankHtml = '';
+            bankHtml = `
+            <table class = "table table-sm">
+                <tr>
+                    <th class = "profile-card-header balance-header">Account Details:</th>
+                </tr>
+
+                <tr>
+                    <td class = "profile-card-text">${userDetails[0].payeeId}</td>
+                </tr>
+                
+                <tr>
+                    <th class = "profile-card-header balance-header">Balance:</th>
+                </tr>
+
+                <tr>
+                    <td class = "profile-card-text">$${userDetails[0].bal}</td>
+                </tr>
+
+            </table>
+            `
+            
+            document.getElementById('bank-details').innerHTML = bankHtml;
+        })
+    }
+
+    getUserDetails("orange");
+</script>

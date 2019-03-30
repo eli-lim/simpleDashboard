@@ -1,3 +1,6 @@
+<%include profile.html%>
+
+
 <div id="stock-selector-panel" class="container p-0 border-bottom">
     <h6 class="command-panel-heading card-header border-0 m-1 p-2">Watchlist</h6>
         <!-- <input class="form-control float-right" type="text" placeholder="Search" aria-label="Search"> -->
@@ -22,7 +25,7 @@
 </div>
 
 <!-- buttons implemented to show/hide twitter or news feed -->
-<div class="btn-group container p-0 border-top" role="group">
+<div id = "news-buttons" class="btn-group container p-0" role="group">
     <button type="button" class="btn col-sm-6 btn-news" id = "twitter-show">
         <img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/256/social-twitter-icon.png" width="20%" hspace = "5">Twitter</button>
     <button type="button" class="btn com-sm-6 btn-news" id = "news-show">
@@ -138,7 +141,6 @@
                 document.getElementById('newsPanel').innerHTML = newsPanelHtml
             })
     }
-
 
     renderStockSelectorPanel()
     renderPageForStock()

@@ -18,7 +18,8 @@
 
 .sidebar {
 	height: 100%;
-	padding-top: 20px;
+  padding-top: 20px;
+  overflow:auto;
 }
 
 .card-text {
@@ -54,7 +55,7 @@
 }
 
 #tweetsPanel {
-	height: 40%;
+  height: 40%;
 }
 
 .row.tweet:hover {
@@ -141,3 +142,67 @@
 	width: 200px;
 	height: 40px;
 }
+
+.circle {
+  width: 35%;
+  position: relative;
+  padding-top: 10px;
+  -webkit-filter: drop-shadow(5px 5px 5px grey);
+  filter: drop-shadow(5px 5px 5px grey);
+  left: 32%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.card{
+  -webkit-filter: drop-shadow(3px 3px 3px lightgrey);
+  filter: drop-shadow(3px 3px 3px lightgrey);
+}
+
+
+.profile-card-text {
+  font-size: 13px;
+  color: black;
+  padding-left: 20px !important;
+}
+
+.profile-card-header {
+  font-size: 15px;
+  color: black;
+  background-color: #e3f2fd !important;
+  padding-left: 20px !important;
+}
+
+.card-title-2 {
+  color: #2D354A;
+  font-size: 20px !important;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-align: center;
+	font-family: 'Helvetica', sans-serif !important;
+	font-size: 100%;
+}
+
+.profile-button {
+  color: #2D354A;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px;
+  text-align: left;
+	font-family: 'Helvetica', sans-serif;
+	font-size: 100%;
+}
+
+.profile-button:hover{
+  background-color: #f6f9fb !important;
+}
+
+.profile-button-active {
+  font-size: 15px !important;
+  color: #5b9bd1;
+  font-weight: 1000 !important;
+  background-color: #f6f9fb !important;
+  border-left: 6px solid #5b9bd1 !important;
+  margin-left: -2px;
+}
+
