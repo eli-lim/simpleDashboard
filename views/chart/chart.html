@@ -4,10 +4,15 @@
         Highcharts.stockChart('MainChart', {
 
             plotOptions: {
-            candlestick : {
-                    lineColor: 'grey',
-                    color: 'salmon',
-                    upColor: 'lightgreen'
+                candlestick : {
+                    lineColor: '#ff4343',
+                    color: '#ff4343',
+                    upLineColor: '#07a08b',
+                    upColor: '#07a08b'
+                },
+
+                column: {
+                    color: 'lightgrey'
                 }
             },
 
@@ -40,8 +45,8 @@
             },
 
             yAxis: [{
-            labels: {
-                align: 'left'
+                labels: {
+                    align: 'left'
             },
             height: '80%',
             resize: {
@@ -52,102 +57,103 @@
                 align: 'left'
             },
             top: '80%',
-            height: '20%',
-            offset: 0
+                height: '20%',
+                offset: 0
             }],
 
             tooltip: {
-            shape: 'square',
-            headerShape: 'callout',
-            borderWidth: 0,
-            shadow: false,
-            positioner: function (width, height, point) {
-                var chart = this.chart,
-                position;
+                shape: 'square',
+                headerShape: 'callout',
+                borderWidth: 0,
+                shadow: false,
+                positioner: function (width, height, point) {
+                    var chart = this.chart,
+                    position;
 
-                if (point.isHeader) {
-                position = {
-                    x: Math.max(
-                    // Left side limit
-                    chart.plotLeft,
-                    Math.min(
-                        point.plotX + chart.plotLeft - width / 2,
-                        // Right side limit
-                        chart.chartWidth - width - chart.marginRight
-                    )
-                    ),
-                    y: point.plotY
-                };
-                } else {
-                position = {
-                    x: point.series.chart.plotLeft,
-                    y: point.series.yAxis.top - chart.plotTop
-                };
+                    if (point.isHeader) {
+                    position = {
+                        x: Math.max(
+                        // Left side limit
+                        chart.plotLeft,
+                        Math.min(
+                            point.plotX + chart.plotLeft - width / 2,
+                            // Right side limit
+                            chart.chartWidth - width - chart.marginRight
+                        )
+                        ),
+                        y: point.plotY
+                    };
+                    } else {
+                    position = {
+                        x: point.series.chart.plotLeft,
+                        y: point.series.yAxis.top - chart.plotTop
+                    };
+                    }
+
+                    return position;
                 }
-
-                return position;
-            }
             },
             
             series: [{
-            type: 'candlestick',
-            id: `${stock}-ohlc`,
-            name: `${stock} Stock Price`,
-            data: (function () {
-                // generate an array of random data
-                var data = [],
-                    time = (new Date()).getTime(),
-                    i;
+                type: 'candlestick',
+                id: `${stock}-ohlc`,
+                name: `${stock} Stock Price`,
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
 
-                for (i = -999; i <= 0; i += 1) {
-                var r = Math.random()
-                    var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + (Math.random() * i)
-                    data.push([
-                        time + i * 1000,
-                        n,
-                        n + 10,
-                        n - 10,
-                        n
-                    ]);
-                }
-                return data;
-            }())
+                    for (i = -999; i <= 0; i += 1) {
+                    var r = Math.random()
+                        var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + (Math.random() * i)
+                        data.push([
+                            time + i * 1000,
+                            n,
+                            n + 10,
+                            n - 10,
+                            n
+                        ]);
+                    }
+                    return data;
+                }())
             }, {
-            type: 'area',
-            id: `${stock}-volume`,
-            name: `{stock} Volume`,
-            data: (function () {
-                // generate an array of random data
-                var data = [],
-                    time = (new Date()).getTime(),
-                    i;
+                type: 'column',
+                id: `${stock}-volume`,
+                name: `${stock} Volume`,
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
 
-                for (i = -999; i <= 0; i += 1) {
-                var r = Math.random()
-                var n = Math.round(Math.random() * 100)
-                    data.push([
-                        time + i * 1000,
-                        n,
-                        n + 10,
-                        n - 10,
-                        n
-                    ]);
-                }
-                return data;
-            }()),
-            yAxis: 1
+                    for (i = -999; i <= 0; i += 1) {
+                    var r = Math.random()
+                    var n = Math.round(Math.random() * 100)
+                        data.push([
+                            time + i * 1000,
+                            n,
+                            n + 10,
+                            n - 10,
+                            n
+                        ]);
+                    }
+                    return data;
+                }()),
+                yAxis: 1
             }],
+            
             responsive: {
-            rules: [{
-                condition: {
-                maxWidth: 800
-                },
-                chartOptions: {
-                rangeSelector: {
-                    inputEnabled: false
-                }
-                }
-            }]
+                rules: [{
+                    condition: {
+                    maxWidth: 800
+                    },
+                    chartOptions: {
+                        rangeSelector: {
+                            inputEnabled: false
+                        }
+                    }
+                }]
             }
         });
     }

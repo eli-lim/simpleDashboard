@@ -29,7 +29,7 @@
 .command-panel-heading {
 	font-size: 12;
 	background: rgb(238, 239, 240);
-	color: rgb(100, 100, 100);
+	color: #646464;
 }
 
 #stock-selector-panel {}
