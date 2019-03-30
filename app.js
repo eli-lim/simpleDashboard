@@ -4,7 +4,7 @@ const path = require('path');
 const port = 3000
 const bodyParser = require("body-parser")
 
-const clientService = 'http://localhost/clients/info'
+const clientService = 'http://localhost:5000/clients/info'
 
 var request = require('request')
 var cors = require('cors')

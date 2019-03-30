@@ -1,22 +1,24 @@
 <%include profile.html%>
 
-
-<div id="stock-selector-panel" class="container p-0 border-bottom">
-    <h6 class="command-panel-heading card-header border-0 m-1 p-2">Watchlist</h6>
-        <!-- <input class="form-control float-right" type="text" placeholder="Search" aria-label="Search"> -->
-    <div id="stock-selector-panel-header" class="container pt-1 pl-2 m-1 bg-white border-bottom">Symbol</div>
-
-    <div id="stock-selector-panel-body" class="container p-0 m-0 list-group scrollable"></div>
+<div>
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item profile-button" id="dashboard-button">Dashboard</li>
+            <li class="list-group-item profile-button" id="portfolio-button">Portfolio</li>
+            <li class="list-group-item profile-button" id="stock-button" data-toggle="collapse" href="#collapsible-panel">Stocks</li>
+    </ul>
+</div>
+<div id="collapsible-panel" class="collapse show">
+    <div id="stock-selector-panel" class="list-group scrollable border-bottom"></div>
 </div>
 
 <div id="stock-details-panel" class="container p-0">
     <h6 class="command-panel-heading card-header border-0 m-1 p-2">Details</h6>
     <div class="container pl-2 pt-1">
-        <h6 id="stock-symbol">l</h4>
-        <h6 id="stock-description" class="badge badge-secondary"></h4>
-        <h6 id="stock-price"></h4>
+        <h6 id="stock-symbol">l</h6>
+        <h6 id="stock-description" class="badge badge-secondary"></h6>
+        <h6 id="stock-price"></h6>
         <div id="stock-sentiment">Sentiment</div>
-        <h6 id="stock-last-updated"></h4>
+        <h6 id="stock-last-updated"></h6>
     </div>
     <div class="container btn-group">
         <button type="button" class="btn border-danger text-danger">Sell</button>
@@ -56,6 +58,7 @@
     let stocks = ['AAPL', 'TSLA', 'MSFT', 'FB', 'AMZN', 'GOOGL', 'JPM', 'GS']
 
     function renderPageForStock(stock = stocks[0]) {
+        setStockSelectorButtonText(stock)
         renderDetailsPanel(stock)
         renderStockTweets(stock)
         renderChart(stock)
@@ -83,11 +86,11 @@
             stock = stocks[i]
 
             stockSelectorPanelHtml += `
-                <a id="${stock}" href="#" onclick="renderPageForStock(this.id)" class="stock-selector-button list-group-item list-group-item-action border-0">${stock}</a>
+                <a id="${stock}" href="#" onclick="renderPageForStock(this.id)" class="stock-selector-button dropdown-item border-0">${stock}</a>
             `
         }
 
-        document.getElementById('stock-selector-panel-body').innerHTML = stockSelectorPanelHtml
+        document.getElementById('stock-selector-panel').innerHTML = stockSelectorPanelHtml
     }
 
     function renderStockTweets(stock) {
@@ -140,6 +143,10 @@
 
                 document.getElementById('newsPanel').innerHTML = newsPanelHtml
             })
+    }
+
+    function setStockSelectorButtonText(text) {
+        
     }
 
     renderStockSelectorPanel()
