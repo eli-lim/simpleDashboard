@@ -26,14 +26,12 @@ $(document).ready(function(){
         $("#MainChart").show()
         $("#portfolio-table").hide()
         $("#portfolio-display").hide()
-        $("#stock-button").show()
         
         $("#portfolio-button").removeClass("profile-button-active")
         $(this).addClass("profile-button-active")
 
         //showing dashboard sidebar
-        $("#stock-details-panel").show()
-        $("#stock-selector-panel").show()
+        $("#stock-widget").show()
         $("#stock-twits-panel").show()
         $("#twitter-show").trigger("click");
         $("#news-buttons").show()
@@ -44,9 +42,7 @@ $(document).ready(function(){
         $("#portfolio-table").show()
         $("#portfolio-display").show()
         // hiding dashboard sidebar
-        $("#stock-button").hide()
-        $("#stock-details-panel").hide()
-        $("#stock-selector-panel").hide()
+        $("#stock-widget").hide()
         $("#news-panel").hide()
         $("#stock-twits-panel").hide()
         $("#news-buttons").hide()
@@ -60,5 +56,5 @@ $(document).ready(function(){
         $("#stock-button").click()
     })
 
-    $("#draggable").draggable()
+    $("#stock-widget").draggable()
 })  
