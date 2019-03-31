@@ -29,7 +29,6 @@ $(document).ready(function(){
         $("#stock-button").show()
         
         $("#portfolio-button").removeClass("profile-button-active")
-        $("#stock-button").removeClass("profile-button-active")
         $(this).addClass("profile-button-active")
 
         //showing dashboard sidebar
@@ -54,13 +53,12 @@ $(document).ready(function(){
         $("#MainChart").hide()
 
         $("#dashboard-button").removeClass("profile-button-active")
-        $("#stock-button").removeClass("profile-button-active")
         $(this).addClass("profile-button-active")
     })
 
-    $("#stock-button").click(function () {
-        $("#dashboard-button").removeClass("profile-button-active")
-        $("#portfolio-button").removeClass("profile-button-active")
-        $(this).addClass("profile-button-active")
+    $(".stock-selector-button").click(function () {
+        $("#stock-button").click()
     })
+
+    $("#draggable").draggable()
 })  

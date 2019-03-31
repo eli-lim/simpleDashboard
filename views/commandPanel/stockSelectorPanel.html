@@ -4,26 +4,8 @@
     <ul class="list-group list-group-flush">
             <li class="list-group-item profile-button" id="dashboard-button">Dashboard</li>
             <li class="list-group-item profile-button" id="portfolio-button">Portfolio</li>
-            <li class="list-group-item profile-button" id="stock-button" data-toggle="collapse" href="#collapsible-panel">Stocks</li>
+            
     </ul>
-</div>
-<div id="collapsible-panel" class="collapse show">
-    <div id="stock-selector-panel" class="list-group scrollable border-bottom"></div>
-</div>
-
-<div id="stock-details-panel" class="container p-0">
-    <h6 class="command-panel-heading card-header border-0 m-1 p-2">Details</h6>
-    <div class="container pl-2 pt-1">
-        <h6 id="stock-symbol">l</h6>
-        <h6 id="stock-description" class="badge badge-secondary"></h6>
-        <h6 id="stock-price"></h6>
-        <div id="stock-sentiment">Sentiment</div>
-        <h6 id="stock-last-updated"></h6>
-    </div>
-    <div class="container btn-group">
-        <button type="button" class="btn border-danger text-danger">Sell</button>
-        <button type="button" class="btn border-success text-success">Buy</button>
-    </div>
 </div>
 
 <!-- buttons implemented to show/hide twitter or news feed -->
@@ -146,7 +128,7 @@
     }
 
     function setStockSelectorButtonText(text) {
-        
+        document.getElementById('stock-button')
     }
 
     renderStockSelectorPanel()

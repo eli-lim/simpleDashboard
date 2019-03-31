@@ -19,7 +19,7 @@
 .sidebar {
 	height: 100%;
   padding-top: 20px;
-  overflow-y:auto;
+  overflow:auto;
 }
 
 .card-text {
@@ -36,20 +36,11 @@
 #stock-selector-panel {}
 
 #stock-selector-panel-header {
-	height: 3%;
 	font-size: 11;
 }
 
-#stock-selector-panel-body {
-}
-
 .stock-selector-button {
-	font-size: 12;
-}
-
-#stock-details-panel {
-	height: 20%;
-	overflow-y: auto;
+	font-size: 11;
 }
 
 #tweetsPanel {
@@ -81,11 +72,12 @@
 }
 
 .overlay {
+	width: 100%;
+	height: 100%;
 	position: absolute;
-	top: 50px;
-	left: 50px;
+	top: 100px;
+	left: 100px;
 	color: red;
-	font-size: 40px;
 	z-index: 10;
 }
 
@@ -105,7 +97,7 @@
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3498db; /* Blue */
   border-radius: 50%;
-  width: 100%;
+  width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
 }
@@ -116,24 +108,26 @@
 }
 
 .btn-news{
-	background-color: #26A69A;
+	background-color: rgb(161, 161, 161);
 	color: white;
 	text-align: center;
 	margin: 0 auto;
 	padding: 0;
+	width: 200px;
 	height: 40px;
 }
 
 .btn-news:hover{
-	background-color: #00695C
+	background-color: #3498db;
 }
 
 .btn-news-active{
-	background-color: #00695C;
+	background-color: #3498db;
 	color: white;
 	text-align: center;
 	margin: 0 auto;
 	padding: 0;
+	width: 200px;
 	height: 40px;
 }
 
@@ -200,3 +194,27 @@
   margin-left: -2px;
 }
 
+#stock-button {
+	 border: none;
+  border-radius: 2px;
+  padding: 12px 18px;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  background-color: #2196f3;
+  box-shadow: 0 0 4px #999;
+  outline: none;
+}
+
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+.ripple:hover {
+  background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+}
+.ripple:active {
+  background-color: #6eb9f7;
+  background-size: 100%;
+  transition: background 0s;
+}
