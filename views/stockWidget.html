@@ -1,39 +1,23 @@
-<%include profile.html%>
+<div id="stock-widget" class="container p-0 overlay ui-widget-content" style="width: auto; height: auto;">
+    <button class="container ripple" id="stock-button" data-toggle="collapse" href="#collapsible-panel">Stock</button>
+    
+    <div id="collapsible-panel" class="collapse">
+        <div id="stock-selector-panel"></div>
+    </div>
 
-<div>
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item profile-button" id="dashboard-button">Dashboard</li>
-            <li class="list-group-item profile-button" id="portfolio-button">Portfolio</li>
-            
-    </ul>
-</div>
-
-<!-- buttons implemented to show/hide twitter or news feed -->
-<div id = "news-buttons" class="btn-group container p-0" role="group">
-    <button type="button" class="btn col-sm-6 btn-news" id = "twitter-show">
-        <img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/256/social-twitter-icon.png" width="20%" hspace = "5">Twitter</button>
-    <button type="button" class="btn com-sm-6 btn-news" id = "news-show">
-        <img src="https://image.flaticon.com/icons/svg/148/148985.svg" width="18%" hspace = "5">News Feed</button>
-</div>
-
-<div id="stock-twits-panel" class="container p-0 border-top">
-    <div id="tweetsPanel" class="container pl-0 scrollable hoverable">
-        <div class="row tweet">
-            <div class="col tweet">
-                <h6 class="card-text">Example Tweet</p>
-            </div>                     
+    <div id="stock-details-panel" class="container p-0">
+        <h6 id="stock-symbol" class="command-panel-heading card-header border-0 m-1 p-2">Stock Details</h6>
+        <div class="container pl-2 pt-1">
+            <h6 id="stock-description" class="badge badge-secondary"></h6>
+            <h6 id="stock-price"></h6>
+            <div id="stock-sentiment">Sentiment</div>
+            <h6 id="stock-last-updated"></h6>
         </div>
-    </div>  
-</div>
-
-<div id = "news-panel" class = "container p-0 border-top">
-    <div id="newsPanel" class="container pl-0 scrollable hoverable">
-        <div class="row tweet">
-            <div class="col tweet">
-                <h6 class="card-text">dummy news</p>
-            </div>                     
-        </div>
-    </div>  
+    </div>
+    <div class="btn-group">
+        <button class="btn border-danger text-danger">Sell</button>
+        <button class="btn border-success text-success">Buy</button>
+    </div>
 </div>
 
 <script>   

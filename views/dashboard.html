@@ -11,35 +11,14 @@
             <div class="chart"></div>
         </div>
 
-        <div id="stock-widget" class="container p-0 overlay ui-widget-content" style="width: auto; height: auto;">
-            <li class="list-group-item ripple" id="stock-button" data-toggle="collapse" href="#collapsible-panel">Stock</li>
-            
-            <div id="collapsible-panel">
-                <div class="collapse show">
-                    <div id="stock-selector-panel"></div>
-                </div>
-            </div>
-            <div id="stock-details-panel" class="container p-0">
-                <h6 id="stock-symbol" class="command-panel-heading card-header border-0 m-1 p-2">Stock Details</h6>
-                <div class="container pl-2 pt-1">
-                    <h6 id="stock-description" class="badge badge-secondary"></h6>
-                    <h6 id="stock-price"></h6>
-                    <div id="stock-sentiment">Sentiment</div>
-                    <h6 id="stock-last-updated"></h6>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button class="btn border-danger text-danger">Sell</button>
-                <button class="btn border-success text-success">Buy</button>
-            </div>
-        </div>
+        <%include stockWidget.html %>
 
         <div id = "portfolio-display" class = "container col-1">
-                <%include ./commandPanel/stock_table.html %>
+                <%include ./sidePanel/stock_table.html %>
         </div>
 
         <div class="col-2 sidebar p-0 border">
-            <%include ./commandPanel/stockSelectorPanel.html %>
+            <%include ./sidePanel/sidePanel.html %>
         </div>
 
     </div>
