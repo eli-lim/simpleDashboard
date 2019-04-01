@@ -11,6 +11,11 @@
                     upColor: '#07a08b'
                 },
 
+                macd: {
+                    color: 'skyblue',
+                    negativeColor: '#edb7b4'
+                },
+
                 column: {
                     color: 'lightgrey'
                 }
@@ -29,13 +34,13 @@
                                 .then( response => response.json() )
                                 .then( data => {
                                     var x = (new Date()).getTime(), // current time
-                                        y = data.price
+                                        y = data.price + 100
 
                                     priceSeries.addPoint([x, y, y + 10, y - 10, y], true, true);
-                                    volumeSeries.addPoint([x, y, y + 10, y - 10, y], true, true);
+                                    volumeSeries.addPoint([x, y / 200], true, true);
                                 })
 
-                        }, 10000);
+                        }, 1000);
                     }
                 },
             },
@@ -47,16 +52,16 @@
             yAxis: [{
                 labels: {
                     align: 'left'
-            },
-            height: '80%',
-            resize: {
-                enabled: true
-            }
+                },
+                height: '80%',
+                resize: {
+                    enabled: true
+                }
             }, {
-            labels: {
-                align: 'left'
-            },
-            top: '80%',
+                labels: {
+                    align: 'left'
+                },
+                top: '80%',
                 height: '20%',
                 offset: 0
             }],
@@ -96,7 +101,7 @@
             
             series: [{
                 type: 'candlestick',
-                id: `${stock}-ohlc`,
+                id: `${stock}-candles`,
                 name: `${stock} Stock Price`,
                 data: (function () {
                     // generate an array of random data
@@ -106,7 +111,7 @@
 
                     for (i = -999; i <= 0; i += 1) {
                     var r = Math.random()
-                        var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + (Math.random() * i)
+                        var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + 100
                         data.push([
                             time + i * 1000,
                             n,
@@ -129,18 +134,19 @@
 
                     for (i = -999; i <= 0; i += 1) {
                     var r = Math.random()
-                    var n = Math.round(Math.random() * 100)
+                    var n = Math.round(Math.random() * 5)
                         data.push([
                             time + i * 1000,
-                            n,
-                            n + 10,
-                            n - 10,
                             n
                         ]);
                     }
                     return data;
                 }()),
-                yAxis: 1
+                yAxis: 0
+            }, {
+                type: 'macd',
+                yAxis: 1,
+                linkedTo: `${stock}-candles`
             }],
             
             responsive: {
@@ -157,5 +163,4 @@
             }
         });
     }
-
 </script>
