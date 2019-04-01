@@ -1,5 +1,6 @@
 <script>
-    
+    let interval
+
     function renderChart(stock) {
         Highcharts.stockChart('MainChart', {
 
@@ -25,10 +26,14 @@
                 events: {
                     load: function () {
 
+                        if (interval != null) {
+                            clearInterval(interval)
+                        }
+
                         let priceSeries  = this.series[0]
                         let volumeSeries = this.series[1]
                         
-                        setInterval(function () {
+                        interval = setInterval(function() {
 
                             fetch(`http://localhost:5000/stocks/${stock}`)
                                 .then( response => response.json() )
@@ -38,7 +43,7 @@
 
                                     priceSeries.addPoint([x, y, y + 10, y - 10, y], true, true);
                                     volumeSeries.addPoint([x, y / 200], true, true);
-                                })
+                            })
 
                         }, 1000);
                     }
