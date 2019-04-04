@@ -11,13 +11,13 @@
     
 
 <script>
-function getUserDetails(username) {
-        fetch(`http://localhost:3000/client_details/${username}`)
+function getUserDetails() {
+        fetch(`http://localhost:3000/client_details/`)
         .then(response=>response.json())
         .then(userDetails=> {
             var userHtml = '';
             userHtml += `
-            <h5 class="card-title-2" style = "padding-top:8px">${userDetails[0].name}</h5>
+            <h5 class="card-title-2" style = "padding-top:8px">${userDetails.fullName}</h5>
             `
             document.getElementById('userDetails').innerHTML = userHtml;   
 
@@ -29,7 +29,7 @@ function getUserDetails(username) {
                 </tr>
 
                 <tr>
-                    <td class = "profile-card-text">${userDetails[0].payeeId}</td>
+                    <td class = "profile-card-text">${userDetails.payeeId}</td>
                 </tr>
                 
                 <tr>
@@ -37,7 +37,7 @@ function getUserDetails(username) {
                 </tr>
 
                 <tr>
-                    <td class = "profile-card-text">$${userDetails[0].bal}</td>
+                    <td class = "profile-card-text">$${userDetails.balance}</td>
                 </tr>
 
             </table>
@@ -47,5 +47,5 @@ function getUserDetails(username) {
         })
     }
 
-    getUserDetails("orange");
+    getUserDetails();
 </script>

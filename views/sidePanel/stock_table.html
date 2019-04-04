@@ -6,7 +6,9 @@
                     <th scope = "col">Stock Name</th>
                     <th scope = "col">Quantity Bought</th>
                     <th scope = "col">Cost</th>
+                    <th scope = "col">Total Cost</th>
                     <th scope = "col">Date Bought</th>
+                    <th scope = "col">Current Price</th>
                 </tr>
             </thead>
         
@@ -22,21 +24,26 @@ function renderPortfolio(user) {
     fetch(`http://localhost:3000/portfolio/${user}`)
     .then(response=>response.json())
     .then(portfolio=> {
+        console.log(portfolio)
         var portfolioHtml = '';
         for(var i = 0; i < portfolio.length; i++) {
+            var totalCost = portfolio[i].buy_price*portfolio[i].quantity
             portfolioHtml += `
                 <tr>
                     <td>${portfolio[i].stockname}</td>
                     <td>${portfolio[i].quantity}</td>
-                    <td>${portfolio[i].buy_price}</td>
+                    <td>$${portfolio[i].buy_price}</td>
+                    <td>$${totalCost}</td>
                     <td>${portfolio[i].date_bought}</td>
+                    <td>TO ADD: FETCH CURRENT PRICE AND POPULATE TABLE</td>
                 </tr>
             `
         }
+
         document.getElementById('stock_table').innerHTML = portfolioHtml;   
     })
      
 }
 
-renderPortfolio('orange');
+renderPortfolio('apple');
 </script>
