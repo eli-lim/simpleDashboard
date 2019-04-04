@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/css/modal_form.css" type="text/css"/>
+
 <div class="container m-0 p-0">
     <div>
         <img class="circle" src="/images/eli_face.jpg" alt="Card image cap">
@@ -6,11 +8,57 @@
     </div>
     <!-- <button class="btn btn-success">Transfer</button> -->
     <div id = "bank-details"></div>
+
+    <div>
+        <button class ="btn btn-success container col-12" id = "transferBtn">Make Transfer</button>
+        <div id="transferModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <form action = "/makeTransfer" method = 'post'>
+                    <div class = "form-group">
+                        <br/>
+                        <h2 id = "stock-form-symbol" style = "color: green;  text-shadow: 1px 1px 2px lightgrey">Make Payment</h2>
+                        <input type="text" id="quantity" class="form-control" name="transferAmt" placeholder="Enter Amount($): " required><br/>
+                        <input type="submit" class="btn btn-success" value="Make Payment">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
     
 
 <script>
+
+// Get the modal
+var tModal = document.getElementById('transferModal');
+
+// Get the button that opens the modal
+var tBtn = document.getElementById("transferBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[1];
+
+// When the user clicks on the button, open the modal 
+tBtn.onclick = function() {
+    tModal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    tModal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 function getUserDetails() {
         fetch(`http://localhost:3000/client_details/`)
         .then(response=>response.json())

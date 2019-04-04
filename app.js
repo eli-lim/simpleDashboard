@@ -208,10 +208,14 @@ app.get('/client_details/' , (req,res) => {
 
     request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/trades/getportfolio?username=${username}`, (err, resp, body) => {
         var output = []
+        console.log(body.length)
         portfolio = JSON.parse(body)
-        if (err) {
-            console.log(portfolio);
-            throw err;
+        console.log('2222222222222222')
+        if (err || typeof portfolio.username === "undefined") {
+            res.send({
+                'portfolio': [],
+                'userDetails':sess.userDetails
+            })
         } else {
             var {username, stockname, quantity, buy_price, date_bought} = portfolio;
             
@@ -285,6 +289,15 @@ app.post('/buyStock', (req, res) => {
     payload = {
         'stockname' : req.body.stockname,
         'quantity' : req.body.quantity,
+        'username' : req.session.userDetails.username
+    }
+
+    res.send(payload)
+})
+
+app.post('/makeTransfer', (req, res) => {
+    payload = {
+        'amt' : req.body.transferAmt,
         'username' : req.session.userDetails.username
     }
 
