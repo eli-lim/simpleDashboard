@@ -26,26 +26,49 @@
                 events: {
                     load: function () {
 
+                        let chartData = this.series[0]
+
+                        fetch (`http://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/stocks/getstockbyname?stockname=${stock}`)
+                            .then( response => response.json() )
+                            .then( data => {
+
+                                var proper = []
+
+                                for (var i = 0; i < data.stock.length; i++) {
+                                    var price = data.stock[i]
+                                    var time  = price.open_time, 
+                                        open  = price.open_price,
+                                        high  = price.high,
+                                        low   = price.low,
+                                        close = price.close_price
+                                    
+                                    proper.push([open, high, low, close])
+                                }
+
+                                chartData.setData(proper, true)
+                                console.log(proper)
+                            })
+
                         if (interval != null) {
                             clearInterval(interval)
                         }
 
-                        let priceSeries  = this.series[0]
-                        let volumeSeries = this.series[1]
+                        // let priceSeries  = this.series[0]
+                        // let volumeSeries = this.series[1]
                         
-                        interval = setInterval(function() {
+                        // interval = setInterval(function() {
 
-                            fetch(`http://localhost:5000/stocks/${stock}`)
-                                .then( response => response.json() )
-                                .then( data => {
-                                    var x = (new Date()).getTime(), // current time
-                                        y = data.price + 100
+                        //     fetch(`http://localhost:5000/stocks/${stock}`)
+                        //         .then( response => response.json() )
+                        //         .then( data => {
+                        //             var x = (new Date()).getTime(), // current time
+                        //                 y = data.price + 100
 
-                                    priceSeries.addPoint([x, y, y + 10, y - 10, y], true, true);
-                                    volumeSeries.addPoint([x, y / 200], true, true);
-                            })
+                        //             priceSeries.addPoint([x, y, y + 10, y - 10, y], true, true);
+                        //             volumeSeries.addPoint([x, y / 200], true, true);
+                        //     })
 
-                        }, 1000);
+                        // }, 1000);
                     }
                 },
             },
@@ -110,44 +133,23 @@
                 name: `${stock} Stock Price`,
                 data: (function () {
                     // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                    var data = []
+                    //     time = (new Date()).getTime(),
+                    //     i;
 
-                    for (i = -999; i <= 0; i += 1) {
-                    var r = Math.random()
-                        var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + 100
-                        data.push([
-                            time + i * 1000,
-                            n,
-                            n + 10,
-                            n - 10,
-                            n
-                        ]);
-                    }
+                    // for (i = -999; i <= 0; i += 1) {
+                    // var r = Math.random()
+                    //     var n = Math.round(Math.random() * 100 + (Math.random() < 0.5 ? r : -r) * 10) + 100
+                    //     data.push([
+                    //         time + i * 1000,
+                    //         n,
+                    //         n + 10,
+                    //         n - 10,
+                    //         n
+                    //     ]);
+                    // }
                     return data;
                 }())
-            }, {
-                type: 'column',
-                id: `${stock}-volume`,
-                name: `${stock} Volume`,
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-
-                    for (i = -999; i <= 0; i += 1) {
-                    var r = Math.random()
-                    var n = Math.round(Math.random() * 5)
-                        data.push([
-                            time + i * 1000,
-                            n
-                        ]);
-                    }
-                    return data;
-                }()),
-                yAxis: 0
             }, {
                 type: 'macd',
                 yAxis: 1,

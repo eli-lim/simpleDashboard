@@ -1,10 +1,10 @@
-<div class="card border-0">
+<div class="container m-0 p-0">
     <div>
         <img class="circle" src="/images/eli_face.jpg" alt="Card image cap">
     </div> 
     <div id = 'userDetails'>
     </div>
-    <button class="btn btn-success">Transfer</button>
+    <!-- <button class="btn btn-success">Transfer</button> -->
     <div id = "bank-details"></div>
 </div>
 
@@ -25,18 +25,12 @@ function getUserDetails(username) {
             bankHtml = `
             <table class = "table table-sm">
                 <tr>
-                    <th class = "profile-card-header balance-header">Account Details:</th>
-                </tr>
-
-                <tr>
+                    <th class = "profile-card-header balance-header">Account Details</th>
                     <td class = "profile-card-text">${userDetails[0].payeeId}</td>
                 </tr>
                 
                 <tr>
-                    <th class = "profile-card-header balance-header">Balance:</th>
-                </tr>
-
-                <tr>
+                    <th class = "profile-card-header balance-header">Balance</th>
                     <td class = "profile-card-text">$${userDetails[0].bal}</td>
                 </tr>
 
