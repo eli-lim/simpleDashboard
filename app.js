@@ -6,7 +6,7 @@ const bodyParser = require("body-parser")
 
 var session = require('express-session')
 
-const clientService = 'http://localhost:5000/clients/info'
+const clientService = 'https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/clients/getclientinfo'
 
 var request = require('request')
 var cors = require('cors')
@@ -157,7 +157,7 @@ app.post('/auth', (req, res) => {
     var hashedPw = mysqlPassword(req.body.password);
 
     var username = req.body.login;
-    // console.log(username)
+
     request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/clients/getclientinfo?username=${username}`, (err, resp, body) => {
 
         details = JSON.parse(body)
@@ -207,14 +207,10 @@ app.get('/client_details/' , (req,res) => {
 
     request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/trades/getportfolio?username=${username}`, (err, resp, body) => {
         var output = []
-        console.log(body.length)
         portfolio = JSON.parse(body)
-        console.log('2222222222222222')
-        if (err || typeof portfolio.username === "undefined") {
-            res.send({
-                'portfolio': [],
-                'userDetails':sess.userDetails
-            })
+        if (err) {
+            console.log(portfolio);
+            throw err;
         } else {
             var {username, stockname, quantity, buy_price, date_bought} = portfolio;
             
@@ -288,15 +284,6 @@ app.post('/buyStock', (req, res) => {
     payload = {
         'stockname' : req.body.stockname,
         'quantity' : req.body.quantity,
-        'username' : req.session.userDetails.username
-    }
-
-    res.send(payload)
-})
-
-app.post('/makeTransfer', (req, res) => {
-    payload = {
-        'amt' : req.body.transferAmt,
         'username' : req.session.userDetails.username
     }
 
