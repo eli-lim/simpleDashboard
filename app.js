@@ -175,7 +175,8 @@ app.post('/auth', (req, res) => {
                     'username' : details.username,
                     'fullName' : details.full_name,
                     'payeeId' : details.payeeId,
-                    'balance' : details.balance
+                    'balance' : details.balance,
+                    'hashedPw': hashedPw
                 }
 
                 res.redirect('dashboard')
@@ -286,22 +287,51 @@ app.get('/dashboard', (req, res) => {
 })
 
 app.post('/buyStock', (req, res) => {
-    payload = {
-        'stockname' : req.body.stockname,
-        'quantity' : req.body.quantity,
-        'username' : req.session.userDetails.username
-    }
 
-    res.send(payload)
+    request.post("https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/trades/createTrade", {
+        json: {
+            "stockname" : req.body.stockname,
+            "quantity" : req.body.quantity,
+            "username" : req.session.userDetails.username,
+            "stockPrice": req.body.stockPrice
+            }
+        }, (error, response, body) => {        
+                    req.session.userDetails.balance -= req.body.stockPrice * req.body.quantity
+                    console.log(req.session.userDetails.balance)
+                    res.redirect('dashboard')
+        }
+    )
 })
-
 app.post('/makeTransfer', (req, res) => {
-    payload = {
-        'amt' : req.body.transferAmt,
-        'username' : req.session.userDetails.username
-    }
 
-    res.send(payload)
+    var amt = parseFloat(req.body.transferAmt)
+    var username = req.session.userDetails.username
+
+    request.post("https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/payments/paymentv2", {
+        json: {
+            "fundTransferDetl": {
+                'username': username,
+                'amount':amt
+                }
+            }
+        }, (error, response, body) => {
+            if (error) {
+                // console.error(error)
+                res.redirect('dashboard')
+            } else {
+                request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/clients/getclientinfo?username=${req.session.userDetails.username}`, (err, resp, body) => {
+                    details = JSON.parse(body)                
+                    req.session.userDetails.balance = details.balance
+                    console.log(req.session.userDetails.balance)
+                })
+                console.log(response)
+                res.redirect('dashboard')
+
+                
+
+                
+            }
+    })
 })
 
 app.get('/stocks', (req, res) => {
