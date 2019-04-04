@@ -1,67 +1,33 @@
 <div id="analysisPanel" class="container m-0 p-0">
     <div class="list-group-item profile-button border-0">Analysis</div>
     <div id="technicalsIndicator" class="container mt-3">
-        <div class="row">
-            <div class="col-2">
-                <h6 style="font-size: 10">
-                    Technicals
-                </h6>
-            </div>
-            <div class="col-10">
-                <div class="progress">
-                    <div id="technicalGreen" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width: 75%">75%</div>
-                    <div id="technicalRed" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" style="width: 25%">25%</div>
-                </div>
-            </div>
-        </div>        
+        <h6 style="font-size: 10">
+            Technicals
+        </h6>
+        <div class="progress">
+            <div id="technicalGreen" class="progress-bar progress-bar-striped bg-info progress-bar-animated" style="width: 75%">75%</div>
+            <div id="technicalRed" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" style="width: 25%">25%</div>
+        </div>    
     </div>
     <div id="financialsIndicator" class="container">
         <hr>
-        <div class="row">
-            <div class="col-2">
-                <h6 style="font-size: 10">
-                    Financials
-                </h6>
-            </div>
-            <div class="col-10">
-                <div class="progress">
-                    <div id="financialsGreen" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width: 30%">30%</div>
-                    <div id="financialsRed" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" style="width: 70%">70%</div>
-                </div>
-            </div>
-        </div> 
+        <h6 style="font-size: 10">
+            Financials
+        </h6>
+        <div class="progress">
+            <div id="financialsGreen" class="progress-bar progress-bar-striped bg-info progress-bar-animated" style="width: 30%">30%</div>
+            <div id="financialsRed" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" style="width: 70%">70%</div>
+        </div>
     </div>
     <div id="sentimentIndicator" class="container mb-3">
         <hr>
-        <div class="row">
-            <div class="col-2">
-                <h6 style="font-size: 10">
-                    Sentiment
-                </h6>
-            </div>
-            <div class="col-10">
-                <div class="progress">
-                    <div id="sentimentGreen" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width: 40%">40%</div>
-                    <div id="sentimentGreen" class="progress-bar progress-bar-striped bg-warning progress-bar-animated" style="width: 25%">25%</div>
-                    <div id="sentimentRed" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" style="width: 35%">35%</div>
-                </div>
-            </div>
-        </div> 
-    </div>
+        <h6 style="font-size: 10">
+            Sentiment
+        </h6>
+        <div class="progress">
+            <div id="sentimentGreen" class="progress-bar progress-bar-striped bg-info progress-bar-animated" style="width: 40%">40%</div>
+            <div id="sentimentYellow" class="progress-bar progress-bar-striped bg-dark progress-bar-animated" style="width: 10%"></div>
+            <div id="sentimentRed" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" style="width: 50%">50%</div>
+        </div>
+    </div> 
 </div>
-
-<script>
-
-    function setTechnicalBar() {
-
-    }
-
-    function setFinancialsBar() {
-
-    }
-
-    function setSentimentBar() {
-
-    }
-
-</script>

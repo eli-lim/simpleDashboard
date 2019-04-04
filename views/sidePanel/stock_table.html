@@ -21,7 +21,7 @@
 <script>
 function renderPortfolio() {
 
-    fetch(`http://localhost:3000/client_details`)
+    fetch(`/client_details`)
     .then(response=>response.json())
     .then(clientDetails=> {
         portfolio = clientDetails.portfolio

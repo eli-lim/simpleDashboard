@@ -11,9 +11,9 @@
         <h6 id="stock-symbol" class="command-panel-heading card-header border-0 m-1 p-2">Stock Details</h6>
         <div class="container pl-2 pt-1">
             <h6 id="stock-description" class="badge badge-secondary"></h6>
-            <h6 id="stock-price"></h6>
-            <div id="stock-sentiment">Sentiment</div>
-            <h6 id="stock-last-updated"></h6>
+            <h4 id="stock-price" style="color: green"></h4>
+            <!-- <div id="stock-sentiment">Sentiment</div> -->
+            <h6 id="stock-last-updated" style="font-size: 8"></h6>
         </div>
     </div>
     <div class="btn-group">
@@ -39,6 +39,7 @@
             </div>
     </div>
 </div>
+
 
 <script>
     
@@ -84,12 +85,12 @@
             .then( data => {
                 var stockValue = data.name
                 stockValue = stockValue.replace('  Inc.','')
-                document.getElementById('stock-symbol').textContent       = data.name  
-                document.getElementById('stock-form-symbol').textContent       = data.name   
+                document.getElementById('stock-symbol').textContent      = data.name  
+                document.getElementById('stock-form-symbol').textContent  = data.name   
                 document.getElementById('stock-description').textContent  = 'Stock'
-                document.getElementById('stock-price').textContent        = data.price  
-                document.getElementById('stock-form-price').textContent        = "Stock Price (per qty): $" + Math.round(data.price*100)/100  
-                document.getElementById('stock-sentiment').textContent    = data.sentiment
+                document.getElementById('stock-price').textContent        = '$' + Math.round(data.price*100)/100
+                document.getElementById('stock-form-price').textContent   = "Stock Price (per qty): $" + Math.round(data.price*100)/100  
+                // document.getElementById('stock-sentiment').textContent    = Math.round(data.sentiment*100)/100
                 document.getElementById('stock-last-updated').textContent = data.last_updated
                 document.getElementById('stock-name-value').value = stockValue
                 document.getElementById('stock-price-value').value = Math.round(data.price*100)/100
@@ -114,7 +115,7 @@
 
     function renderStockTweets(stock) {
 
-        fetch(`http://localhost:3000/stock/tweets/${stock}`)
+        fetch(`/stock/tweets/${stock}`)
             .then( response => response.json() )
             .then( tweets => {
             tweetsPanelHtml = ''
@@ -140,7 +141,7 @@
     
     function renderStockNews(stock) {
 
-        fetch(`http://localhost:3000/stock/news/${stock}`)
+        fetch(`/stock/news/${stock}`)
             .then(response => response.json())
             .then( news => {
                 newsPanelHtml = ''

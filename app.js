@@ -62,12 +62,17 @@ app.get('/stock/info/:symbol', (req, res) => {
 
     var symbol = req.params.symbol
 
-    res.send({
-        symbol: symbol,
-        name: `${symbol}  Inc.`,
-        price: Math.random() * 100,
-        sentiment: Math.random(),
-        last_updated: new Date().toDateString()
+    request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/stocks/getstockprices?stockname=${symbol}`, (err, resp, body) => {
+        
+        stockPrice = JSON.parse(body)
+        
+        res.send({
+            symbol: symbol,
+            name: `${symbol}  Inc.`,
+            price: stockPrice.open_price,
+            sentiment: (Math.random()*100)/100,
+            last_updated: new Date().toDateString()
+        })
     })
 })
 
@@ -157,7 +162,7 @@ app.post('/auth', (req, res) => {
     var hashedPw = mysqlPassword(req.body.password);
 
     var username = req.body.login;
-
+    // console.log(username)
     request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/clients/getclientinfo?username=${username}`, (err, resp, body) => {
 
         details = JSON.parse(body)
@@ -174,8 +179,7 @@ app.post('/auth', (req, res) => {
                     'username' : details.username,
                     'fullName' : details.full_name,
                     'payeeId' : details.payeeId,
-                    'balance' : details.balance,
-                    'hashedPw': hashedPw
+                    'balance' : details.balance
                 }
 
                 res.redirect('dashboard')
@@ -200,7 +204,7 @@ app.post('/auth', (req, res) => {
 //     })    
 // })
 
-app.get('/client_details/' , (req,res) => {
+app.get('/client_details' , (req,res) => {
 
     var sess = req.session
 //    res.send(req.session.userDetails)
@@ -208,10 +212,23 @@ app.get('/client_details/' , (req,res) => {
 
     request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/trades/getportfolio?username=${username}`, (err, resp, body) => {
         var output = []
-        portfolio = JSON.parse(body)
+
+        try {
+            portfolio = JSON.parse(body)
+            console.log('nani!!!!')
+        } catch (err) {
+            res.send({
+                'portfolio': [],
+                'userDetails': sess.userDetails
+            })
+            return
+        }
+
+        console.log("WHAAHFAHFIWAHFIQWHFIWQHFIQWHFIWQHFIQWHFIWQFKSAJDFKASJDKASJD")
+
         if (err) {
             console.log(portfolio);
-            throw err;
+            // throw err;
         } else {
             var {username, stockname, quantity, buy_price, date_bought} = portfolio;
             
@@ -239,46 +256,21 @@ app.get('/portfolio', (req,res) => {
 
 app.get('/dashboard', (req, res) => {
 
-    var sess = req.session
-
-    clientApiKey = req.headers['x-apikey'] || 'appletanKEY'
-    requestOptions = { 
-        json: true, 
-        headers: { 
-            'x-apikey': clientApiKey 
-        } 
+    data = {
+        stocks: [
+            {ticker: 'AAPL', price: 10},
+            {ticker: 'TSLA', price: 20},
+            {ticker: 'MOMM', price: 30},
+            {ticker: 'DADD', price: 40},
+            {ticker: 'FADD', price: 50},
+            {ticker: 'TATA', price: 60},
+            {ticker: 'MAMA', price: 70},
+            {ticker: 'PETA', price: 80},
+            {ticker: 'JOJO', price: 90}
+        ]
     }
 
-    // res.set('Access-Control-Allow-Origin', 'http://localhost:5000')
-
-    request(clientService, requestOptions, (err, resp, body) => {
-        
-        if (err) {
-            // res.render('error', {
-            //     error: 'Please login before proceeding!'
-            // })
-            return console.log(err);
-        }
-
-        data = {
-            username:    body.username,
-            email:       body.email,
-            userBalance: body.balance,
-            stocks: [
-                {ticker: 'AAPL', price: 10},
-                {ticker: 'TSLA', price: 20},
-                {ticker: 'MOMM', price: 30},
-                {ticker: 'DADD', price: 40},
-                {ticker: 'FADD', price: 50},
-                {ticker: 'TATA', price: 60},
-                {ticker: 'MAMA', price: 70},
-                {ticker: 'PETA', price: 80},
-                {ticker: 'JOJO', price: 90}
-            ]
-        }
-
-        res.render('dashboard', data)
-    })
+    res.render('dashboard', data)
 })
 
 app.post('/buyStock', (req, res) => {
@@ -287,8 +279,7 @@ app.post('/buyStock', (req, res) => {
         json: {
             "stockname" : req.body.stockname,
             "quantity" : req.body.quantity,
-            "username" : req.session.userDetails.username,
-            "stockPrice": req.body.stockPrice
+            "username" : req.session.userDetails.username
             }
         }, (error, response, body) => {        
                     req.session.userDetails.balance -= req.body.stockPrice * req.body.quantity
@@ -298,8 +289,24 @@ app.post('/buyStock', (req, res) => {
     )
 })
 
-app.post('/makeTransfer', (req, res) => {
 
+app.get('/stocks', (req, res) => {
+    res.render('panel/stockCards', {
+        stocks: [
+            {ticker: 'AAPL', price: 10},
+            {ticker: 'TSLA', price: 20},
+            {ticker: 'MOMM', price: 30},
+            {ticker: 'DADD', price: 40},
+            {ticker: 'FADD', price: 50},
+            {ticker: 'TATA', price: 60},
+            {ticker: 'MAMA', price: 70},
+            {ticker: 'PETA', price: 80},
+            {ticker: 'JOJO', price: 90}
+        ]
+    })
+})
+
+app.post('/makeTransfer', (req, res) => {
     var amt = parseFloat(req.body.transferAmt)
     var username = req.session.userDetails.username
 
@@ -323,26 +330,8 @@ app.post('/makeTransfer', (req, res) => {
                 console.log(response)
                 res.redirect('dashboard')
 
-                
 
-                
             }
-    })
-})
-
-app.get('/stocks', (req, res) => {
-    res.render('panel/stockCards', {
-        stocks: [
-            {ticker: 'AAPL', price: 10},
-            {ticker: 'TSLA', price: 20},
-            {ticker: 'MOMM', price: 30},
-            {ticker: 'DADD', price: 40},
-            {ticker: 'FADD', price: 50},
-            {ticker: 'TATA', price: 60},
-            {ticker: 'MAMA', price: 70},
-            {ticker: 'PETA', price: 80},
-            {ticker: 'JOJO', price: 90}
-        ]
     })
 })
 
