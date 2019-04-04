@@ -1,15 +1,22 @@
+
 const express = require('express')
 const app = express()
 const path = require('path');
 const port = 3000
 const bodyParser = require("body-parser")
 
-const clientService = 'http://localhost:5000/clients/info'
+var session = require('express-session')
+
+const clientService = 'http://localhost/clients/info'
 
 var request = require('request')
 var cors = require('cors')
 app.use(cors())
 var mysql = require('mysql')
+
+//session config
+app.use(session({secret: 'ssshhhhh'}));
+
 
 //database config
 var connectionConfig = require('./connection_config')
@@ -19,6 +26,7 @@ var connection = mysql.createConnection(connectionConfig);
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
 app.use(bodyParser.json());
 
 // these two lines of code allows you to call images from a static folder
@@ -150,57 +158,63 @@ app.post('/auth', (req, res) => {
     var hashedPw = mysqlPassword(req.body.password);
 
     var username = req.body.login;
-    connection.query(`SELECT * from client_info where username = "${username}"`, function(err, userdata) {
+    // console.log(username)
+    request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/clients/getclientinfo?username=${username}`, (err, resp, body) => {
+
+        details = JSON.parse(body)
+        // console.log(details)
+        json_pw = details.password
         if (err) {
-            console.log('hello world')
             res.redirect('/')
         } else {
-            if (userdata[0].hashed_pwd == hashedPw) {
+            if (json_pw == hashedPw) {
+                
+                //initialize session and set useful variables to be parsed
+                sess = req.session
+                sess.userDetails = {
+                    'username' : details.username,
+                    'fullName' : details.full_name,
+                    'payeeId' : details.payeeId,
+                    'balance' : details.balance
+                }
+
                 res.redirect('dashboard')
             } else {
                 res.redirect('/')
             }
         }
-    })    
-})
-
-app.get('/client_details/:symbol' , (req,res) => {
-    
-    var symbol = req.params.symbol;
-
-    connection.query(`SELECT * from client_info where username = "${symbol}"`, function (err, data, fields){
-        var output = [];
-
-        if (err) {
-            throw err;
-        }
-
-        var {full_name, balance, payeeId} = data[0]
-
-        output.push({
-            name: full_name,
-            bal: balance,
-            payeeId: payeeId
-        })
-
-        res.send(output)
     })
 })
 
-app.get('/portfolio/:symbol' , (req,res) => {
+//     var username = req.body.login;
+//     connection.query(`SELECT * from client_info where username = "${username}"`, function(err, userdata) {
+//         if (err) {
+//             res.redirect('/')
+//         } else {
+//             if (userdata[0].hashed_pwd == hashedPw) {
+//                 res.redirect('dashboard')
+//             } else {
+//                 res.redirect('/')
+//             }
+//         }
+//     })    
+// })
 
-    var symbol = req.params.symbol;
+app.get('/client_details/' , (req,res) => {
 
-    connection.query(`SELECT * from client_portfolio where username = "${symbol}"`, function (err, data, fields){
-        var output = [];
+    var sess = req.session
+//    res.send(req.session.userDetails)
+    var username = sess.userDetails.username
+
+    request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/trades/getportfolio?username=${username}`, (err, resp, body) => {
+        var output = []
+        portfolio = JSON.parse(body)
         if (err) {
+            console.log(portfolio);
             throw err;
-        }
-
-        for (var i = 0; i < data.length; i++) {
-    
-            var {username, stockname, quantity, buy_price, date_bought} = data[i];
-    
+        } else {
+            var {username, stockname, quantity, buy_price, date_bought} = portfolio;
+            
             output.push({
                 username: username,
                 stockname: stockname,
@@ -209,9 +223,11 @@ app.get('/portfolio/:symbol' , (req,res) => {
                 date_bought: date_bought,
             })
 
-            console.log(data)
+            res.send({
+                'portfolio': output,
+                'userDetails': sess.userDetails
+            })
         }
-        res.send(output)
     })
 })
 
@@ -222,6 +238,8 @@ app.get('/portfolio', (req,res) => {
 })
 
 app.get('/dashboard', (req, res) => {
+
+    var sess = req.session
 
     clientApiKey = req.headers['x-apikey'] || 'appletanKEY'
     requestOptions = { 
