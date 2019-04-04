@@ -19,11 +19,12 @@
 
 
 <script>
-function renderPortfolio(user) {
+function renderPortfolio() {
 
-    fetch(`http://localhost:3000/portfolio/${user}`)
+    fetch(`http://localhost:3000/client_details`)
     .then(response=>response.json())
-    .then(portfolio=> {
+    .then(clientDetails=> {
+        portfolio = clientDetails.portfolio
         console.log(portfolio)
         var portfolioHtml = '';
         for(var i = 0; i < portfolio.length; i++) {
@@ -45,5 +46,5 @@ function renderPortfolio(user) {
      
 }
 
-renderPortfolio('apple');
+renderPortfolio();
 </script>

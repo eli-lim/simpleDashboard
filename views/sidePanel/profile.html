@@ -2,7 +2,7 @@
     <div>
         <img class="circle" src="/images/eli_face.jpg" alt="Card image cap">
     </div> 
-    <div id = 'userDetails'>
+    <div id = 'clientDetails.userDetails'>
     </div>
     <button class="btn btn-success">Transfer</button>
     <div id = "bank-details"></div>
@@ -14,12 +14,12 @@
 function getUserDetails() {
         fetch(`http://localhost:3000/client_details/`)
         .then(response=>response.json())
-        .then(userDetails=> {
+        .then(clientDetails=> {
             var userHtml = '';
             userHtml += `
-            <h5 class="card-title-2" style = "padding-top:8px">${userDetails.fullName}</h5>
+            <h5 class="card-title-2" style = "padding-top:8px">${clientDetails.userDetails.fullName}</h5>
             `
-            document.getElementById('userDetails').innerHTML = userHtml;   
+            document.getElementById('clientDetails.userDetails').innerHTML = userHtml;   
 
             var bankHtml = '';
             bankHtml = `
@@ -29,7 +29,7 @@ function getUserDetails() {
                 </tr>
 
                 <tr>
-                    <td class = "profile-card-text">${userDetails.payeeId}</td>
+                    <td class = "profile-card-text">${clientDetails.userDetails.payeeId}</td>
                 </tr>
                 
                 <tr>
@@ -37,7 +37,7 @@ function getUserDetails() {
                 </tr>
 
                 <tr>
-                    <td class = "profile-card-text">$${userDetails.balance}</td>
+                    <td class = "profile-card-text">$${clientDetails.userDetails.balance}</td>
                 </tr>
 
             </table>

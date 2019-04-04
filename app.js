@@ -167,7 +167,8 @@ app.post('/auth', (req, res) => {
         if (err) {
             res.redirect('/')
         } else {
-            if (json_pw == hashedPw) {              
+            if (json_pw == hashedPw) {
+                
                 //initialize session and set useful variables to be parsed
                 sess = req.session
                 sess.userDetails = {
@@ -200,14 +201,10 @@ app.post('/auth', (req, res) => {
 // })
 
 app.get('/client_details/' , (req,res) => {
-    
-   res.send(req.session.userDetails)
 
-})
-
-app.get('/portfolio/:username' , (req,res) => {
-
-    var username = req.params.username;
+    var sess = req.session
+//    res.send(req.session.userDetails)
+    var username = sess.userDetails.username
 
     request(`https://huansenlim2017-eval-prod.apigee.net/esdbroker/api/v1/trades/getportfolio?username=${username}`, (err, resp, body) => {
         var output = []
@@ -225,9 +222,12 @@ app.get('/portfolio/:username' , (req,res) => {
                 buy_price: buy_price,
                 date_bought: date_bought,
             })
-        }
 
-        res.send(output)
+            res.send({
+                'portfolio': output,
+                'userDetails': sess.userDetails
+            })
+        }
     })
 })
 
@@ -239,7 +239,7 @@ app.get('/portfolio', (req,res) => {
 
 app.get('/dashboard', (req, res) => {
 
-    // console.log(req.session.userDetails)
+    var sess = req.session
 
     clientApiKey = req.headers['x-apikey'] || 'appletanKEY'
     requestOptions = { 
