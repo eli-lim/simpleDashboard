@@ -281,6 +281,16 @@ app.get('/dashboard', (req, res) => {
     })
 })
 
+app.post('/buyStock', (req, res) => {
+    payload = {
+        'stockname' : req.body.stockname,
+        'quantity' : req.body.quantity,
+        'username' : req.session.userDetails.username
+    }
+
+    res.send(payload)
+})
+
 app.get('/stocks', (req, res) => {
     res.render('panel/stockCards', {
         stocks: [
